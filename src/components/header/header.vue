@@ -1,24 +1,21 @@
 <template>
-  <div></div>
+  <div class="header">header</div>
 </template>
 
 <script>
 export default {
-  data () {
-    return {
-    };
-  },
-
-  components: {},
-
-  computed: {},
-
-  mounted: {},
-
-  methods: {}
+  mounted () {
+    this.$http.get('/ratings')
+    .then((res) => {
+      console.log(res.data)
+    })
+    .catch((error) => {
+      console.log(error)
+    })
+  }
 }
 </script>
 
-<style lang='scss' scoped>
+<style lang="stylus" scoped>
 
 </style>
