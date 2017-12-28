@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <v-header></v-header>
+    <v-header :seller="seller"></v-header>
     <div class="tab border-1px">
       <div class="tab-item">
         <router-link to="/goods">商品</router-link>
@@ -19,10 +19,30 @@
 <script>
   import header from 'components/header/header'
 
+  // easy-mock上的数据地址
+  const baseUrl = 'https://www.easy-mock.com/mock/5a3cd49ae4ff93383f3b01d9/api'
+  const ERR_OK = 0
+
   export default {
     name: 'app',
+    data () {
+      return {
+        seller: {}
+      }
+    },
     components: {
       'v-header': header
+    },
+    created () {
+      this.$http.get(baseUrl + '/seller')
+        .then((res) => {
+          if (res.data.erron === ERR_OK) {
+            this.seller = res.data.seller
+          }
+        })
+        .catch((error) => {
+          console.log(error)
+        })
     }
   }
 </script>
