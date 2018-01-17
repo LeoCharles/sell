@@ -33,31 +33,41 @@
       <img :src="seller.avatar" width="100%" height="100%">
     </div>
     <!-- 弹出层 -->
-    <div v-show="detailShow" class="detail">
-      <div class="detail-wrapper clearfix">
-        <div class="detail-main">
-          <h1 class="name">{{seller.name}}</h1>
-          <div class="star-wrapper">
-            <!-- 评分组件 -->
-            <star :size="48" :score="seller.score"></star>
+    <transition name="fade">
+      <div v-show="detailShow" class="detail">
+        <div class="detail-wrapper clearfix">
+          <div class="detail-main">
+            <h1 class="name">{{seller.name}}</h1>
+            <div class="star-wrapper">
+              <!-- 评分组件 -->
+              <star :size="48" :score="seller.score"></star>
+            </div>
+            <div class="title">
+              <div class="line"></div>
+              <div class="text">优惠信息</div>
+              <div class="line"></div>
+            </div>
+            <ul v-if="seller.supports" class="supports">
+              <li class="support-item" v-for="(item, index) in seller.supports">
+                <span class="icon" :class="classMap[seller.supports[index].type]"></span>
+                <span class="text">{{seller.supports[index].description}}</span>
+              </li>
+            </ul>
+            <div class="title">
+              <div class="line"></div>
+              <div class="text">商家公告</div>
+              <div class="line"></div>
+            </div>
+            <div class="bulletin">
+              <p class="content">{{seller.bulletin}}</p>
+            </div>
           </div>
-          <div class="title">
-            <div class="line"></div>
-            <div class="text">优惠信息</div>
-            <div class="line"></div>
-          </div>
-          <ul v-if="seller.supports" class="supports">
-            <li class="support-item" v-for="(item, index) in seller.supports">
-              <span class="icon" :class="classMap[seller.supports[index].type]"></span>
-              <span class="text">{{seller.supports[index].description}}</span>
-            </li>
-          </ul>
+        </div>
+        <div @click="hideDetail" class="detail-close">
+          <i class="icon-close"></i>
         </div>
       </div>
-      <div class="detail-close">
-        <i class="icon-close"></i>
-      </div>
-    </div>
+    </transition>
   </div>
 </template>
 
@@ -84,6 +94,9 @@
     methods: {
       showDetail () {
         this.detailShow = true
+      },
+      hideDetail () {
+        this.detailShow = false
       }
     }
   }
@@ -124,6 +137,8 @@
             line-height: 18px
             font-size: 16px
             font-weight: bold
+
+        // 店家描述
         .description
           margin-bottom: 10px
           line-height: 12px
@@ -150,6 +165,8 @@
           .text
             line-height: 12px
             font-size:10px
+      
+      // 活动个数
       .support-count
         position: absolute 
         right: 12px
@@ -167,6 +184,8 @@
           margin-left: 2px
           line-height: 24px
           font-size: 10px
+
+    // 公告
     .bulletin-wrapper
       position: relative
       height: 28px
@@ -194,6 +213,8 @@
         right: 12px
         top: 8px
         font-size: 10px
+    
+    // 背景图
     .background
       position: absolute
       top: 0
@@ -202,6 +223,8 @@
       height: 100%
       z-index: -1
       filter: blur(10px)
+    
+    // 弹出层
     .detail
       position: fixed
       top: 0
@@ -209,8 +232,13 @@
       width: 100%
       height: 100%
       z-index: 999
-      background-color: rgba(7, 17, 27, .7)
       overflow: auto
+      background-color: rgba(7, 17, 27, .8)
+      backdrop-filter: blur(10px) // ios有效
+      &.fade-enter-active, &.fade-leave-active
+        transition: all 0.5s
+      &.fade-enter, &.fade-leave-to
+        opacity: 0
       .detail-wrapper
         width: 100%
         min-height: 100%
@@ -239,6 +267,45 @@
               padding: 0 12px
               font-size: 14px
               font-weight: 700
+          .supports
+            width: 80%
+            margin: 0 auto
+            .support-item
+              padding: 0 12px
+              margin-bottom: 12px;
+              font-size: 0
+              &.last-child
+                margin-bottom: 0
+              .icon
+                display: inline-block
+                width: 16px
+                height: 16px
+                margin-right: 6px
+                vertical-align: top
+                background-size: 16px 16px
+                background-repeat: no-repeat
+                &.decrease
+                  bg-image('decrease_2')
+                &.discount
+                  bg-image('discount_2')
+                &.guarantee
+                  bg-image('guarantee_2')
+                &.invoice
+                  bg-image('invoice_2')
+                &.special
+                  bg-image('special_2')
+              .text
+                line-height: 16px
+                font-size: 12px
+          .bulletin
+            width: 80%
+            margin: 0 auto
+            .content
+              padding: 0 12px
+              line-height: 24px
+              font-size: 12px
+      
+      // 关闭按钮
       .detail-close
         position: relative
         width: 32px
