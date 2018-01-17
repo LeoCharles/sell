@@ -19,10 +19,6 @@
 <script>
   import header from 'components/header/header'
 
-  // easy-mock上的数据地址
-  const baseUrl = 'https://www.easy-mock.com/mock/5a3cd49ae4ff93383f3b01d9/api'
-  const ERR_OK = 0
-
   export default {
     name: 'app',
     data () {
@@ -34,9 +30,9 @@
       'v-header': header
     },
     created () {
-      this.$http.get(baseUrl + '/seller')
+      this.$http.get(this.serverPath + '/seller')
         .then((res) => {
-          if (res.data.erron === ERR_OK) {
+          if (res.erron === this.ERR_OK) {
             this.seller = res.data.seller
           }
         })
