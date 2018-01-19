@@ -31,6 +31,10 @@
                 <div class="price">
                   <span class="now">&yen;{{food.price}}</span><span class="old" v-show="food.oldPrice">&yen;{{food.oldPrice}}</span>
                 </div>
+                <!-- 购物数量 -->
+                <div class="cartcontrol-wrapper">
+                  <cartcontrol :food="food"></cartcontrol>
+                </div>
               </div>
             </li>
           </ul>
@@ -38,13 +42,14 @@
       </ul>
     </div>
     <!-- 购物车 -->
-    <shopcart></shopcart>
+    <shopcart :select-foods="selectFoods" :delivery-price="seller.deliveryPrice" :min-price="seller.minPrice"></shopcart>
   </div>
 </template>
 
 <script>
   import BScroll from 'better-scroll'
   import shopcart from 'components/shopcart/shopcart'
+  import cartcontrol from 'components/cartcontrol/cartcontrol'
 
   export default {
     props: {
@@ -53,7 +58,8 @@
       }
     },
     components: {
-      shopcart
+      shopcart,
+      cartcontrol
     },
     data () {
       return {
@@ -72,6 +78,17 @@
           }
         }
         return 0
+      },
+      selectFoods () {
+        let foods = []
+        this.goods.forEach((itme) => {
+          itme.foods.forEach((food) => {
+            if (food.count) {
+              foods.push(food)
+            }
+          })
+        })
+        return foods
       }
     },
     created () {
@@ -100,7 +117,8 @@
           click: true
         })
         this.foodsScroll = new BScroll(this.$refs.foodsWrapper, {
-          probeType: 3
+          probeType: 3,
+          click: true
         })
         this.foodsScroll.on('scroll', (pos) => {
           this.scrollY = Math.abs(Math.round(pos.y))
@@ -156,7 +174,7 @@
           z-index: 9
           background-color: #fff
           font-weight: 700
-          color: rgb(240, 20, 20)
+          color: #07111b
           .text
             border-none()
         .text
@@ -234,5 +252,9 @@
               text-decoration: line-through
               font-size: 10px
               color: rgb(147, 153, 159)
-
+          // 购物数量控件
+          .cartcontrol-wrapper
+            position: absolute
+            right: 0
+            bottom: 12px
 </style>
