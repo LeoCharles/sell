@@ -356,7 +356,7 @@
       transform: translate3d(0, -100%, 0)
       &.fold-enter-active, &.fold-leave-active
         transition: all 0.5s
-      &.fold-enter, &.fold-leave-to
+      &.fold-enter, &.fold-leave-active
         transform: translate3d(0, 0, 0)
       .list-header
         height: 40px
