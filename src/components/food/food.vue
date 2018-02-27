@@ -94,9 +94,6 @@
         }
       }
     },
-    computed: {
-
-    },
     methods: {
       show () {
         this.showFlag = true
@@ -297,7 +294,7 @@
               font-size: 12px
             .icon-thumb_up
               color: rgb(0, 160, 220)
-            .icon-thumb_dowm
+            .icon-thumb_down
               color: rgb(147, 153, 159)
         .no-rating
           padding: 16px 0

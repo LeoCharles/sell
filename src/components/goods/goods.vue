@@ -54,6 +54,8 @@
   import cartcontrol from 'components/cartcontrol/cartcontrol'
   import food from 'components/food/food'
 
+  const ERR_OK = 0
+
   export default {
     props: {
       seller: {
@@ -101,7 +103,7 @@
 
       this.$http.get(this.serverPath + '/goods')
         .then((res) => {
-          if (res.erron === this.ERR_OK) {
+          if (res.data.erron === ERR_OK) {
             this.goods = res.data.goods
             // 获取数据，DOM更新后
             this.$nextTick(() => {

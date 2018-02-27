@@ -7,7 +7,5 @@ export default {
 
     // 接口host
     Vue.prototype.serverPath = 'https://www.easy-mock.com/mock/5a3cd49ae4ff93383f3b01d9/api'
-    // 判断是否成功
-    Vue.ERR_OK = 0
   }
 }
