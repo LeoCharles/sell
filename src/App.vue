@@ -19,22 +19,30 @@
 </template>
 
 <script>
+  import {urlParse} from 'common/js/util'
   import header from 'components/header/header'
+
+  const ERR_OK = 0
 
   export default {
     name: 'app',
     data () {
       return {
-        seller: {}
+        seller: {
+          id: (() => {
+            let queryParam = urlParse()
+            return queryParam.id
+          })()
+        }
       }
     },
     components: {
       'v-header': header
     },
     created () {
-      this.$http.get(this.serverPath + '/seller')
+      this.$http.get(this.serverPath + '/seller' + '?id=' + this.seller.id)
         .then((res) => {
-          if (res.erron === this.ERR_OK) {
+          if (res.data.erron === ERR_OK) {
             this.seller = res.data.seller
           }
         })
