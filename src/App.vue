@@ -25,7 +25,6 @@
   const ERR_OK = 0
 
   export default {
-    name: 'app',
     data () {
       return {
         seller: {
@@ -43,7 +42,7 @@
       this.$http.get(this.serverPath + '/seller' + '?id=' + this.seller.id)
         .then((res) => {
           if (res.data.erron === ERR_OK) {
-            this.seller = res.data.seller
+            this.seller = Object.assign({}, this.seller, res.data.seller)
           }
         })
         .catch((error) => {
